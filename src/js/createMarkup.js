@@ -15,6 +15,8 @@ const sentinelRef = document.querySelector('.sentinel');
 searchFormRef.addEventListener('submit', imageInputHandler);
 
 const imageApiService = new ImageApiService;
+
+//--------бесконечный скролл---------//
 const observer = new IntersectionObserver(onEntry, {
     rootMargin: '100px',
   });
@@ -40,6 +42,7 @@ function imageInputHandler(event) {
         // loadBtnRef.setAttribute('disabled', true);
         return;
     }
+    
     imageApiService.fetchImages()
     .then(images => {
         if(images.length === 0) {
@@ -56,6 +59,8 @@ function imageInputHandler(event) {
     })
 
 };
+
+
 function createMarkup(markupCreationFunction, requestResult) {
   const markup = markupCreationFunction(requestResult);
   galleryRef.innerHTML += markup;
@@ -66,9 +71,12 @@ function deleteMarkup() {
   galleryRef.innerHTML = '';
 }
 
+//---------функция реализации бесконечного скролла---------//
+
 function onEntry(entries) {
   entries.forEach(entry => {
-      if (entry.isIntersecting && imageApiService.searchQuery !== '') {
+
+    if (entry.isIntersecting && imageApiService.searchQuery !== '') {
           imageApiService.fetchImages()
           .then(images => {
       
@@ -76,6 +84,7 @@ function onEntry(entries) {
               galleryRef.addEventListener('click', onImgClick);
 
           })
+          
       }
   })  
 }
