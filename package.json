@@ -27,6 +27,8 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "basiclightbox": "^5.0.4",
+    "handlebars": "^4.7.7",
     "infinite-scroll": "^4.0.1",
     "notiflix": "^3.2.2",
     "simplelightbox": "^2.9.0"
