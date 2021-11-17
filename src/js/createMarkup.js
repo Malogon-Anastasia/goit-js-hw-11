@@ -19,10 +19,7 @@ const observer = new IntersectionObserver(onEntry, {
     rootMargin: '100px',
   });
 
-  let lightbox = new SimpleLightbox('.gallery a', {
-    showCounter: true,
-    disableScroll: true,
-  });
+  let lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
   
   function onImgClick(evt) {
     evt.preventDefault();
