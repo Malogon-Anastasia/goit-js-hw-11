@@ -1,16 +1,18 @@
 {{#each this}}
 <div class="photo-card">
-  <img class='image'src="{{webformatURL}}" alt="{{tags}}" data-source="{{largeImageURL}}"'/>
+  <a href="{{largeImageURL}}">
+  <img class="img" src="{{webformatURL}}" alt="{{tags}}" loading="lazy"/>
+  </a>
   <div class="stats">
-    <p class="stats-item">
+    <p class="info-item">
       <i class="material-icons">Likes</i>
       {{likes}}
     </p>
-    <p class="stats-item">
+    <p class="info-item">
       <i class="material-icons">view</i>
       {{views}}
     </p>
-    <p class="stats-item">
+    <p class="info-item">
       <i class="material-icons">comment</i>
       {{comments}}
     </p>

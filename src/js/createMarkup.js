@@ -4,12 +4,13 @@ import photoCardMarkup from '../templates/photo-card-markup.hbs';
 import ImageApiService from "./apiService.js";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import '../sass/main.scss';
-const axios = require('axios').default;
+// const axios = require('axios').default;
 
-const galleryRef = document.querySelector('.gallery')
+const galleryRef = document.querySelector('.gallery');
 const searchFormRef = document.querySelector('.search-form');
-const loadBtnRef = document.querySelector('.load-button');
-const sentinelRef = document.querySelector('.sentinel')
+// const loadBtnRef = document.querySelector('.load-button');
+const sentinelRef = document.querySelector('.sentinel');
+
     
 searchFormRef.addEventListener('submit', imageInputHandler);
 
@@ -18,6 +19,16 @@ const observer = new IntersectionObserver(onEntry, {
     rootMargin: '100px',
   });
 
+  let lightbox = new SimpleLightbox('.gallery a', {
+    showCounter: true,
+    disableScroll: true,
+  });
+  
+  function onImgClick(evt) {
+    evt.preventDefault();
+    lightbox.open('.gallery');
+  }
+  
 
 function imageInputHandler(event) {
     event.preventDefault();
@@ -36,14 +47,14 @@ function imageInputHandler(event) {
     .then(images => {
         if(images.length === 0) {
             deleteMarkup();
-            createError('No matches found. Please try again!');
+            Notify.failure('No matches found. Please try again!');
             return;
         }
 
         createMarkup(photoCardMarkup, images);
         // loadBtnRef.removeAttribute('disabled');
         // loadBtnRef.addEventListener('click', onLoadMore);
-        galleryRef.addEventListener('click', openModal);
+        galleryRef.addEventListener('click', onImgClick);
         observer.observe(sentinelRef);
     })
 
@@ -65,18 +76,10 @@ function onEntry(entries) {
           .then(images => {
       
               createMarkup(photoCardMarkup, images);
-              // loadBtnRef.removeAttribute('disabled');
-              // loadBtnRef.addEventListener('click', onLoadMore);
-              galleryRef.addEventListener('click', openModal);
+              galleryRef.addEventListener('click', onImgClick);
 
           })
       }
   })  
 }
 
-function openModal(event) {
-  if (event.target.localName === 'img') {
-      basicLightbox.create(`<img src=${event.target.dataset.source} alt=${event.target.alt}>`).show();
-      return;
-  }
-}

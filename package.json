@@ -3,10 +3,10 @@
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://goitacademy.github.io/parcel-project-template",
+  "homepage": "https://Malogon-Anastasia.github.io/goit-js-hw-11",
   "scripts": {
     "dev": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /parcel-project-template/"
+    "build": "parcel build src/*.html --public-url /goit-js-hw-11/"
   },
   "repository": {
     "type": "git",
@@ -31,6 +31,6 @@
     "handlebars": "^4.7.7",
     "infinite-scroll": "^4.0.1",
     "notiflix": "^3.2.2",
-    "simplelightbox": "^2.9.0"
+    "simplelightbox": "^2.10.1"
   }
 }
