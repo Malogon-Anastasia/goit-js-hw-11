@@ -24,10 +24,10 @@ const observer = new IntersectionObserver(onEntry, {
 
   // let lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
   
-  function onImgClick(evt) {
-    evt.preventDefault();
-    lightbox.open('.gallery');
-  }
+  // function onImgClick(evt) {
+  //   evt.preventDefault();
+  //   lightbox.open('.gallery');
+  // }
   
 
 function imageInputHandler(event) {
@@ -55,7 +55,7 @@ function imageInputHandler(event) {
         createMarkup(photoCardMarkup, images);
         // loadBtnRef.removeAttribute('disabled');
         // loadBtnRef.addEventListener('click', onLoadMore);
-        galleryRef.addEventListener('click', onImgClick);
+        // galleryRef.addEventListener('click', onImgClick);
         observer.observe(sentinelRef);
     })
 
@@ -84,7 +84,7 @@ function onEntry(entries) {
           .then(images => {
       
               createMarkup(photoCardMarkup, images);
-              galleryRef.addEventListener('click', onImgClick);
+              // galleryRef.addEventListener('click', onImgClick);
 
           })
           
