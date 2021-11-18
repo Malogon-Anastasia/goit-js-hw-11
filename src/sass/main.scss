@@ -16,7 +16,7 @@ body {
 
 
 .search-form {
-  padding: 30px;
+  padding: 20px;
   text-align: center;
 }
 
@@ -36,7 +36,10 @@ body {
   height: 30px;
   
 }
-
+.header {
+  padding: 10px 0;
+  background-color: rgb(124, 243, 243);
+}
 .gallery {
   display: flex;
   flex-wrap: wrap;

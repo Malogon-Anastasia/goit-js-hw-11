@@ -65,7 +65,7 @@ function imageInputHandler(event) {
 function createMarkup(markupCreationFunction, requestResult) {
   const markup = markupCreationFunction(requestResult);
   galleryRef.innerHTML += markup;
-  const gallery = new SimpleLightbox('.gallery a');
+  const gallery = new SimpleLightbox('.gallery a', {showCounter: false});
     gallery.refresh();
 }
 
