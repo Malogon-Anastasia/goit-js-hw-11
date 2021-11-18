@@ -4,6 +4,7 @@ import photoCardMarkup from '../templates/photo-card-markup.hbs';
 import ImageApiService from "./apiService.js";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import '../sass/main.scss';
+import axios from 'axios';
 // const axios = require('axios').default;
 
 const galleryRef = document.querySelector('.gallery');
@@ -21,7 +22,7 @@ const observer = new IntersectionObserver(onEntry, {
     rootMargin: '100px',
   });
 
-  let lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
+  // let lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
   
   function onImgClick(evt) {
     evt.preventDefault();
@@ -64,6 +65,8 @@ function imageInputHandler(event) {
 function createMarkup(markupCreationFunction, requestResult) {
   const markup = markupCreationFunction(requestResult);
   galleryRef.innerHTML += markup;
+  const gallery = new SimpleLightbox('.gallery a');
+    gallery.refresh();
 }
 
 
