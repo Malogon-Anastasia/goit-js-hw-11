@@ -1,62 +1,63 @@
 import { Notify } from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
 import photoCardMarkup from '../templates/photo-card-markup.hbs';
-import ImageApiService from "./apiService.js";
+import { fetchImages, pageReset } from "./apiService.js";
 import 'simplelightbox/dist/simple-lightbox.min.css';
 import '../sass/main.scss';
-import axios from 'axios';
+// import axios from 'axios';
 // const axios = require('axios').default;
 
 const galleryRef = document.querySelector('.gallery');
 const searchFormRef = document.querySelector('.search-form');
 // const loadBtnRef = document.querySelector('.load-button');
 const sentinelRef = document.querySelector('.sentinel');
-
+let input = '';
     
 searchFormRef.addEventListener('submit', imageInputHandler);
 
-const imageApiService = new ImageApiService;
+// const imageApiService = new ImageApiService;
 
 //--------бесконечный скролл---------//
 const observer = new IntersectionObserver(onEntry, {
     rootMargin: '100px',
   });
-
-  // let lightbox = new SimpleLightbox('.gallery a', { captionsData: 'alt', captionDelay: 250 });
-  
-  // function onImgClick(evt) {
-  //   evt.preventDefault();
-  //   lightbox.open('.gallery');
-  // }
-  
+ 
 
 function imageInputHandler(event) {
     event.preventDefault();
-    imageApiService.searchQuery = event.currentTarget.elements.searchQuery.value;
-    imageApiService.resetPage();
-    deleteMarkup();
+    input = event.currentTarget.searchQuery.value;
+    pageReset();
+    // deleteMarkup();
+        
     
     
-    if (imageApiService.searchQuery === '') {
-        deleteMarkup();
-        Notify.failure('Sorry, there are no images matching your search query. Please try again.');         
-        // loadBtnRef.setAttribute('disabled', true);
-        return;
-    }
-    
-    imageApiService.fetchImages()
+    fetchImages(input)
     .then(images => {
-        if(images.length === 0) {
-            deleteMarkup();
-            Notify.failure('No matches found. Please try again!');
-            return;
+      const imagesArray = images.data.hits;
+      const totalHits = images.data.totalHits;
+
+    //   if (imagesArray.length === ' ') {
+    //     deleteMarkup();
+    //     Notify.failure('Sorry, there are no images matching your search query. Please try again.');         
+    //     // loadBtnRef.setAttribute('disabled', true);
+    //     return;
+    // }
+      
+      if (imagesArray.length === 0) {
+            // deleteMarkup();
+           return Notify.failure('Sorry, there are no images matching your search query. Please try again.');
+            
+        } else {
+          deleteMarkup();
+          createMarkup(photoCardMarkup, imagesArray);
+          // loadBtnRef.removeAttribute('disabled');
+          // loadBtnRef.addEventListener('click', onLoadMore);
+          // galleryRef.addEventListener('click', onImgClick);
+          Notify.success(`Hooray! We found ${totalHits} images.`);
+          observer.observe(sentinelRef);
         }
 
-        createMarkup(photoCardMarkup, images);
-        // loadBtnRef.removeAttribute('disabled');
-        // loadBtnRef.addEventListener('click', onLoadMore);
-        // galleryRef.addEventListener('click', onImgClick);
-        observer.observe(sentinelRef);
+        
     })
 
 };
@@ -79,16 +80,14 @@ function deleteMarkup() {
 function onEntry(entries) {
   entries.forEach(entry => {
 
-    if (entry.isIntersecting && imageApiService.searchQuery !== '') {
-          imageApiService.fetchImages()
+    if (entry.isIntersecting && entries.searchQuery !== '') {
+          fetchImages(input)
           .then(images => {
-      
-              createMarkup(photoCardMarkup, images);
+            const imagesArray = images.data.hits;
+              createMarkup(photoCardMarkup, imagesArray);
               // galleryRef.addEventListener('click', onImgClick);
-
           })
           
       }
   })  
 }
-
